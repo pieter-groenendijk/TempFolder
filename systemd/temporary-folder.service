@@ -1,0 +1,8 @@
+[Unit]
+Description=Deletes configurated folders marked temporary on configurated targets.
+
+[Service]
+ExecStart=/bin/bash {{PROJECT_ROOT}}/bin/run.sh
+
+[Install]
+WantedBy={{TARGETS}}
