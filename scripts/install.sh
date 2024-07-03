@@ -1,16 +1,14 @@
 #!/bin/bash
 
-source ./common.sh
-source "${CONFIG_DIRECTORY}settings.conf"
+SCRIPTS_DIRECTORY=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-readonly SERVICE_NAME="temp-folder.service"
+source "${SCRIPTS_DIRECTORY}/common.sh"
+source "${CONFIG_DIRECTORY}/settings.sh"
+source "${SCRIPTS_DIRECTORY}/service-utilities.sh"
 
-function targetName() {
-    echo "${1}.service"
-}
 
 function targets() {
-    local targetConfigurationFile="${PROJECT_ROOT}config/targets.conf"
+    local targetConfigurationFile="${PROJECT_ROOT}/config/targets.conf"
     local targets=""
 
     while IFS= read -r line; do
@@ -39,12 +37,6 @@ function replacePlaceholder() {
     echo "${string//${placeholder}/${replacement}}"
 }
 
-function writeNewServiceUnitFile() {
-    local newFile="$1"
-
-    echo "$newFile" | sudo tee "${SERVICES_DIRECTORY}${SERVICE_NAME}" > /dev/null
-}
-
 function activateServiceUnitFile() {
     sudo systemctl daemon-reload
     sudo systemctl disable "$1"
@@ -55,10 +47,14 @@ function createServiceUnitFile() {
     local targets="$(targets)"
     local template=$(cat "${TEMPLATE_DIRECTORY}${SERVICE_NAME}")
 
+    echo "hello"
+
     template=$(replacePlaceholder "{{PROJECT_ROOT}}" "$PROJECT_ROOT" "$template")
     template=$(replacePlaceholder "{{TARGETS}}" "$targets" "$template")
 
-    writeNewServiceUnitFile "$template"
+    echo $template
+
+    newServiceFile "$template"
     activateServiceUnitFile "$SERVICE_NAME"
 }
 

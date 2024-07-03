@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source ./common.sh
+SCRIPTS_DIRECTORY=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 
-readonly LOCATIONS_CONFIGURATION_FILE="${CONFIG_DIRECTORY}locations.conf"
+source "${SCRIPTS_DIRECTORY}/common.sh"
+source "${CONFIG_DIRECTORY}/settings.sh"
 
-# Load settings
-source "${CONFIG_DIRECTORY}settings.conf"
+readonly LOCATIONS_CONFIGURATION_FILE="${CONFIG_DIRECTORY}/locations.conf"
 
-# Functions
+
 function minimumNestingLevel() {
     patternMatchesAmount "/" "$1"
 }
