@@ -2,7 +2,7 @@
 Description=Deletes configurated folders marked temporary on configurated targets.
 
 [Service]
-ExecStart=/bin/bash "{{PROJECT_ROOT}}scripts/run.sh"
+ExecStart=/bin/bash "{{PROJECT_ROOT}}/scripts/run.sh"
 
 [Install]
 WantedBy={{TARGETS}}
