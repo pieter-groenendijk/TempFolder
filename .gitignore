@@ -1,2 +1,5 @@
 # IDE configuration settings
 .idea/
+
+# Logs
+logs/
