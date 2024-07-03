@@ -1,0 +1,3 @@
+# Contributing
+
+Feel free to contribute. Almost always open to look at your pull request or issue. Not that this respository is that special right now...
