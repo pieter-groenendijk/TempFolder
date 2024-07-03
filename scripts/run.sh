@@ -8,19 +8,8 @@ readonly LOCATIONS_CONFIGURATION_FILE="${CONFIG_DIRECTORY}locations.conf"
 source "${CONFIG_DIRECTORY}settings.conf"
 
 # Functions
-function countPatternMatches() {
-    local needle="$1"
-    local haystack="$2"
-
-    if [ -z "$needle" ]; then
-        return 1
-    fi
-
-    echo "$haystack" | grep -o "$needle" | wc -l
-}
-
 function minimumNestingLevel() {
-    countPatternMatches "/" "$1"
+    patternMatchesAmount "/" "$1"
 }
 
 function failsMinimumNestingLevel() {
@@ -52,7 +41,7 @@ exitIfFileNotReadable "$LOCATIONS_CONFIGURATION_FILE"
 while IFS= read -r line; do
     line=$(trimWhitespace "$line")
 
-    if isEmptyLine "$line" || isCommentLine "$line"; then
+    if isEmpty "$line" || isComment "$line"; then
         continue
     fi
 

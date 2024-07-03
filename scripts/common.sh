@@ -1,9 +1,8 @@
 #!/bin/bash
 
-readonly PROJECT_ROOT="$(dirname "${BASH_SOURCE}")/../"
+readonly PROJECT_ROOT="$(realpath "$(dirname "$(realpath "$0")")/../")/"
 readonly CONFIG_DIRECTORY="${PROJECT_ROOT}config/"
-readonly SYSTEMD_DIRECOTRY="${PROJECT_ROOT}systemd/"
-
+readonly TEMPLATE_DIRECTORY="${PROJECT_ROOT}templates/"
 
 
 function log() {
@@ -33,10 +32,28 @@ function trimWhitespace() {
     echo "$value"
 }
 
-function isEmptyLine() {
+function isEmpty() {
     [[ -z "$1" ]]
 }
 
-function isCommentLine() {
+function isComment() {
     [[ "${1:0:1}" == "#" ]]
+}
+
+function patternMatchesAmount() {
+    local needle="$1"
+    local haystack="$2"
+
+    if [ -z "$needle" ]; then
+        return 1
+    fi
+
+    echo "$haystack" | grep -o "$needle" | wc -l
+}
+
+function containsPattern() {
+    local needle="$1"
+    local haystack="$2"
+
+    echo "$haystack" | grep --quiet "$needle"
 }
