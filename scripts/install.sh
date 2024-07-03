@@ -37,25 +37,14 @@ function replacePlaceholder() {
     echo "${string//${placeholder}/${replacement}}"
 }
 
-function activateServiceUnitFile() {
-    sudo systemctl daemon-reload
-    sudo systemctl disable "$1"
-    sudo systemctl enable "$1"
-}
-
 function createServiceUnitFile() {
     local targets="$(targets)"
-    local template=$(cat "${TEMPLATE_DIRECTORY}${SERVICE_NAME}")
-
-    echo "hello"
+    local template=$(cat "${TEMPLATE_DIRECTORY}/${SERVICE_NAME}")
 
     template=$(replacePlaceholder "{{PROJECT_ROOT}}" "$PROJECT_ROOT" "$template")
     template=$(replacePlaceholder "{{TARGETS}}" "$targets" "$template")
 
-    echo $template
-
     newServiceFile "$template"
-    activateServiceUnitFile "$SERVICE_NAME"
 }
 
 createServiceUnitFile
